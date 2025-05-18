@@ -51,7 +51,7 @@ Leave the gateway running whilst we test the connection.
 
 ### Test the WebSocket Connection
 
-Use [Websocketking](websocketking.com) or similar to test the connection.
+Use [Websocketking](https://websocketking.com) or similar to test the connection.
 The address should be: wss://your.domain.com
 Ensure that you can connect to the server
 
