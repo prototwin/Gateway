@@ -1,16 +1,6 @@
 # ProtoTwin Cloud Gateway for Linux
 
-This directory contains the files necessary to build the Cloud Gateway for linux. It uses a docker container to build the application, which is then packaged into both an AppImage and a portable tarball. It is also possible to run the built gateway inside of the container. The docker compose file exposes port 443. If connecting through the Cloud Gateway to a server running on your local machine, you must use your machine's IP address (run `IPConfig`), rather than `127.0.0.1` or `localhost`.
-
-The docker container runs Ubuntu 22.04, ensuring an old version of the standard libraries (e.g. glibc), so that users don't need a very up-to-date linux installation.
-
-## Build Steps
-
-1. Use the docker-compose.yml file to "Compose Up".
-2. Attach a shell to the running container.
-3. Run `sh package.sh`
-4. The `ProtoTwinCloudGateway.tar.gz` and `ProtoTwinCloudGateway.AppImage` files are generated in the `/app` directory.
-5. Download these files from the container and place in the `/static/installers` directory of the ProtoTwin website.
+ProtoTwin Cloud Gateway allows ProtoTwin Simulate and Play, which both run inside the web browser, to connect to physical devices over the internet. It's ideally suited for digital shadows, where high latency communication (> 10ms) is acceptable. This document describes how to install the Cloud Gateway on a linux server.
 
 ## Running on AWS LightSail
 
@@ -24,11 +14,17 @@ Configure the instance's settings:
 Connect to the instance via SSH (e.g. using the terminal button under the Connect tab).
 
 Update: `sudo apt-get update`
+
 Switch to home directory: `cd ~`
+
 Download the tarball: `wget https://prototwin.com/installers/ProtoTwinCloudGateway.tar.gz`
+
 Extract the tarball: `tar -xzvf ProtoTwinCloudGateway.tar.gz`
+
 Install certbot: `sudo apt-get install certbot -y`
+
 Generate LetsEncrypt certificate and key (**replace domain and email**): `sudo certbot certonly --standalone -d "example.domain.com" --non-interactive --agree-tos --email "user@domain.com" --preferred-challenges http`
+
 Note that if the above command fails to generate the certificate, you may need to wait for the DNS changes to propagate before trying again.
 
 Create startup shell script to start the gateway with the desired arguments:
@@ -45,6 +41,7 @@ Note that you can provide additional command line arguments in the startup scrip
 Assign permission to execute: `sudo chmod +x ~/start.sh`
 
 Run startup script: `sudo sh start.sh`
+
 Ensure that the gateway starts correctly and that no errors are reported. If it fails then it is likely that something is already running on port 443 or your key and cert files are not at the locations specified in the startup script.
 
 Leave the gateway running whilst we test the connection.
